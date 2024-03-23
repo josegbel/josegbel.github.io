@@ -47,13 +47,13 @@ tasks.register("moveWasmJsDistribution", Copy::class) {
     dependsOn("wasmJsBrowserDistribution")
 
     from("${rootDir}/composeApp/build/dist/wasmJs/productionExecutable")
-    into("${rootDir}/artifacts")
+    into("${rootDir}/docs")
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 
     doFirst {
-        val artifactsDir = project.file("artifacts")
-        if (!artifactsDir.exists()) {
-            artifactsDir.mkdirs()
+        val docsDir = project.file("docs")
+        if (!docsDir.exists()) {
+            docsDir.mkdirs()
         }
     }
 }
