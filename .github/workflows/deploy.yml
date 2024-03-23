@@ -38,6 +38,8 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add artifacts/
+        git add ./docs/
         git commit -m "Deploy GitHub Pages" || echo "No changes to commit"
-        git push origin main
+        # Use the PAT for authentication
+        git push https://${{ secrets.GH_PAGES_DEPLOY_TOKEN }}@github.com/${{ github.repository }} main
+
