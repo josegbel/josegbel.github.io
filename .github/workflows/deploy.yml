@@ -31,6 +31,10 @@ jobs:
     - name: Build Kotlin WASM project
       run: ./gradlew wasmJsBrowserDistribution
 
+    - name: Create .nojekyll file
+      run: touch .nojekyll
+      # This step ensures GitHub Pages does not process your site with Jekyll.
+
     - name: Commit and Push to GitHub Pages
       run: |
         git config --local user.email "action@github.com"
