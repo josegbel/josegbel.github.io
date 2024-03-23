@@ -1,4 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
@@ -45,28 +44,20 @@ compose.experimental {
 }
 
 tasks.register("moveWasmJsDistribution", Copy::class) {
-    // Ensure this task runs after wasmJsBrowserDistribution
     dependsOn("wasmJsBrowserDistribution")
 
-    // Define the source directory
     from("${rootDir}/composeApp/build/dist/wasmJs/productionExecutable")
-
-    // Define the destination directory
-    into("${rootDir}/artefacts")
-
-    // Set the strategy to include duplicates, which effectively overwrites files
+    into("${rootDir}/artifacts")
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 
     doFirst {
-        // Check if the artefacts directory exists; create it if it doesn't
-        val artefactsDir = project.file("artefacts")
-        if (!artefactsDir.exists()) {
-            artefactsDir.mkdirs()
+        val artifactsDir = project.file("artifacts")
+        if (!artifactsDir.exists()) {
+            artifactsDir.mkdirs()
         }
     }
 }
 
-// Optionally, make this task run automatically after wasmJsBrowserDistribution
 tasks.named("wasmJsBrowserDistribution") {
     finalizedBy("moveWasmJsDistribution")
 }
