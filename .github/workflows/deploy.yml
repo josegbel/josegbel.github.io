@@ -31,14 +31,11 @@ jobs:
     - name: Build Kotlin WASM project
       run: ./gradlew wasmJsBrowserDistribution
 
-    - name: List output directory
-      run: ls -R composeApp/build/dist/wasmJs/productionExecutable
-
     - name: Commit and Push to GitHub Pages
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add ./docs/
+        git add artifacts/
         git commit -m "Deploy GitHub Pages" || echo "No changes to commit"
         # Use the PAT for authentication
         git push https://${{ secrets.GH_PAGES_DEPLOY_TOKEN }}@github.com/${{ github.repository }} main
