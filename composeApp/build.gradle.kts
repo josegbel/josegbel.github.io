@@ -40,8 +40,33 @@ kotlin {
     }
 }
 
-
-
 compose.experimental {
     web.application {}
+}
+
+tasks.register("moveWasmJsDistribution", Copy::class) {
+    // Ensure this task runs after wasmJsBrowserDistribution
+    dependsOn("wasmJsBrowserDistribution")
+
+    // Define the source directory
+    from("${rootDir}/composeApp/build/dist/wasmJs/productionExecutable")
+
+    // Define the destination directory
+    into("${rootDir}/artefacts")
+
+    // Set the strategy to include duplicates, which effectively overwrites files
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
+    doFirst {
+        // Check if the artefacts directory exists; create it if it doesn't
+        val artefactsDir = project.file("artefacts")
+        if (!artefactsDir.exists()) {
+            artefactsDir.mkdirs()
+        }
+    }
+}
+
+// Optionally, make this task run automatically after wasmJsBrowserDistribution
+tasks.named("wasmJsBrowserDistribution") {
+    finalizedBy("moveWasmJsDistribution")
 }
