@@ -38,5 +38,5 @@ jobs:
         git add artifacts/
         git commit -m "Deploy GitHub Pages" || echo "No changes to commit"
         # Use the PAT for authentication
-        git push https://${{ secrets.GH_PAGES_DEPLOY_TOKEN }}@github.com/${{ github.repository }} main
+        git push https://${{ secrets.GH_BOT }}@github.com/${{ github.repository }} main
 
