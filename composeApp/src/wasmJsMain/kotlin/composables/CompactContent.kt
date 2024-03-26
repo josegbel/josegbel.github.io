@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
+import utils.Colors
 
 @Composable
 fun CompactContent() {
@@ -84,7 +85,7 @@ fun CompactContent() {
             modifier = Modifier.align(Alignment.BottomCenter)
         ) {
             Column {
-                Socials(30.dp, 32.dp)
+                Socials(30.dp, 32.dp, Colors.TextColor)
                 Spacer(modifier = Modifier.height(bottomSpacerHeight))
             }
         }

@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -14,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.unit.Dp
@@ -29,7 +29,7 @@ import utils.transparentClickable
 
 
 @Composable
-fun Socials(iconSize: Dp, spacerSize: Dp) {
+fun Socials(iconSize: Dp, spacerSize: Dp, iconColor: Color) {
     var isGithubHover by remember { mutableStateOf(false) }
     var isLinkedinHover by remember { mutableStateOf(false) }
     var isMediumHover by remember { mutableStateOf(false) }
@@ -57,11 +57,11 @@ fun Socials(iconSize: Dp, spacerSize: Dp) {
         animationSpec = TweenSpec(durationMillis = 300)
     )
 
-    val githubTint = if (isGithubHover) Colors.GitHub else MaterialTheme.colors.onBackground
-    val linkedInTint = if (isLinkedinHover) Colors.LinkedIn else MaterialTheme.colors.onBackground
-    val mediumTint = if (isMediumHover) Colors.Medium else MaterialTheme.colors.onBackground
-    val gmailTint = if (isGmailHover) Colors.Gmail else MaterialTheme.colors.onBackground
-    val instagramTint = if (isInstagramHover) Colors.Instagram else MaterialTheme.colors.onBackground
+    val githubTint = if (isGithubHover) Colors.GitHub else iconColor
+    val linkedInTint = if (isLinkedinHover) Colors.LinkedIn else iconColor
+    val mediumTint = if (isMediumHover) Colors.Medium else iconColor
+    val gmailTint = if (isGmailHover) Colors.Gmail else iconColor
+    val instagramTint = if (isInstagramHover) Colors.Instagram else iconColor
 
     Row {
         Icon(
