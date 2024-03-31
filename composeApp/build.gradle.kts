@@ -73,6 +73,8 @@ compose.experimental {
     web.application {}
 }
 
+//****************************************************************************
+// keeping these to use on deployment branch distribution
 tasks.register("moveWasmJsDistribution", Copy::class) {
     dependsOn("wasmJsBrowserDistribution")
 
@@ -83,4 +85,16 @@ tasks.register("moveWasmJsDistribution", Copy::class) {
 
 tasks.named("wasmJsBrowserDistribution") {
     finalizedBy("moveWasmJsDistribution")
+}
+
+tasks.register("moveJsDistribution", Copy::class) {
+    dependsOn("jsBrowserDistribution")
+
+    from("${rootDir}/composeApp/build/dist/js/productionExecutable")
+    into("$rootDir")
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+tasks.named("jsBrowserDistribution") {
+    finalizedBy("moveJsDistribution")
 }
