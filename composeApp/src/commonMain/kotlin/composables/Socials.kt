@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
@@ -28,6 +29,7 @@ import utils.openLink
 import utils.transparentClickable
 
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun Socials(iconSize: Dp, spacerSize: Dp, iconColor: Color) {
     var isGithubHover by remember { mutableStateOf(false) }

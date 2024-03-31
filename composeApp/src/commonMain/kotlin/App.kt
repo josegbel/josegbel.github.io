@@ -15,8 +15,10 @@ import composables.rememberWindowSize
 import composables.rememberWindowType
 import jgweb.composeapp.generated.resources.Res
 import jgweb.composeapp.generated.resources.background
+import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun App() {
     val windowType = rememberWindowType()
@@ -32,14 +34,10 @@ fun App() {
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop // Adjust the scaling to fit/fill as required
             )
-//            if (LocalWindowSize.current == WindowSize.COMPACT) {
-//                CompactContent()
-//            } else {
-                ExpandedContent(Modifier.fillMaxSize())
-//            }
+            ExpandedContent(Modifier.fillMaxSize())
         }
     }
 }
 
 val LocalWindowType = compositionLocalOf { WindowType.COMPACT }
-val LocalWindowSize = compositionLocalOf { IntSize(0,0) }
+val LocalWindowSize = compositionLocalOf { IntSize(0, 0) }
