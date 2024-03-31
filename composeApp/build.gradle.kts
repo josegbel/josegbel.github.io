@@ -8,6 +8,27 @@ plugins {
 }
 
 kotlin {
+
+    targets.forEach {
+        it.compilations.all {
+            kotlinOptions {
+                freeCompilerArgs += "-Xopt-in=androidx.compose.ui.ExperimentalComposeUiApi"
+                freeCompilerArgs += "-Xopt-in=org.jetbrains.compose.resources.ExperimentalResourceApi"
+            }
+        }
+    }
+
+    js {
+        moduleName = "composeApp"
+        binaries.executable()
+        browser {
+            useCommonJs()
+            commonWebpackConfig {
+                outputFileName = "$moduleName.js"
+            }
+        }
+    }
+
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         moduleName = "composeApp"
@@ -32,12 +53,6 @@ kotlin {
             }
         }
         binaries.executable()
-        compilations.all {
-            kotlinOptions {
-                freeCompilerArgs += "-Xopt-in=androidx.compose.ui.ExperimentalComposeUiApi"
-                freeCompilerArgs += "-Xopt-in=org.jetbrains.compose.resources.ExperimentalResourceApi"
-            }
-        }
     }
     
     sourceSets {
