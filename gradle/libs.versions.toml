@@ -1,9 +1,9 @@
 [versions]
-compose = "1.6.2"
-compose-plugin = "1.6.0"
+compose = "1.6.1"
+compose-plugin = "1.6.1"
 junit = "4.13.2"
-kotlin = "1.9.22"
-coroutines = "1.8.1-Beta"
+kotlin = "1.9.23"
+coroutines = "1.8.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
