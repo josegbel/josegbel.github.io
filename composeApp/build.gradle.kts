@@ -56,7 +56,13 @@ kotlin {
     }
     
     sourceSets {
-        
+        all {
+            languageSettings {
+                progressiveMode = true
+                optIn("kotlin.RequiresOptIn")
+            }
+        }
+
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
