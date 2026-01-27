@@ -9,10 +9,41 @@
             window.open(url, "_blank");
         }
     </script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #ComposeTarget {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+    </style>
+    <script>
+        function resizeCanvas() {
+            const canvas = document.getElementById('ComposeTarget');
+            if (!canvas) return;
+            const dpr = window.devicePixelRatio || 1;
+            const cssWidth = window.innerWidth;
+            const cssHeight = window.innerHeight;
+            canvas.width = Math.floor(cssWidth * dpr);
+            canvas.height = Math.floor(cssHeight * dpr);
+            canvas.style.width = cssWidth + 'px';
+            canvas.style.height = cssHeight + 'px';
+        }
+        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('orientationchange', resizeCanvas);
+        resizeCanvas();
+    </script>
     <script src="skiko.js"></script>
 </head>
 <body>
-<canvas id="ComposeTarget"  width="1" height="1"></canvas>
+<canvas id="ComposeTarget"></canvas>
 <script type="application/javascript" src="composeApp.js"></script>
 </body>
 </html>
