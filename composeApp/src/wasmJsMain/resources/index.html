@@ -9,6 +9,41 @@
             window.open(url, "_blank");
         }
     </script>
+    <style>
+        /* Make the page and canvas fill the viewport on all devices */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        /* Ensure the canvas used by Compose fills the whole screen */
+        #ComposeTarget {
+            width: 100vw;
+            height: 100vh;
+            display: block; /* remove default inline spacing */
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+    </style>
+    <script>
+        // Ensure canvas actual pixel size matches device pixels (important for Skiko/Compose)
+        function resizeCanvas() {
+            const canvas = document.getElementById('ComposeTarget');
+            if (!canvas) return;
+            const dpr = window.devicePixelRatio || 1;
+            const cssWidth = window.innerWidth;
+            const cssHeight = window.innerHeight;
+            canvas.width = Math.floor(cssWidth * dpr);
+            canvas.height = Math.floor(cssHeight * dpr);
+            canvas.style.width = cssWidth + 'px';
+            canvas.style.height = cssHeight + 'px';
+        }
+        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('orientationchange', resizeCanvas);
+        // call once synchronously so canvas has correct size before Compose starts
+        resizeCanvas();
+    </script>
     <script type="application/javascript" src="skiko.js"></script>
     <script type="application/javascript" src="composeApp.js"></script>
 </head>
