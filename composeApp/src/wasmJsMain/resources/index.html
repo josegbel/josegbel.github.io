@@ -15,29 +15,31 @@
             height: 100%;
             margin: 0;
             padding: 0;
+            overflow: hidden; /* prevent page scrolling/gutters */
         }
         /* Ensure the canvas used by Compose fills the whole screen */
         #ComposeTarget {
-            width: 100vw;
-            height: 100vh;
-            display: block; /* remove default inline spacing */
             position: fixed;
-            top: 0;
-            left: 0;
+            inset: 0; /* top:0; right:0; bottom:0; left:0 */
+            display: block; /* remove default inline spacing */
+            background: transparent;
+            outline: 2px solid magenta; /* debug outline to see actual canvas area */
         }
+        body { background: #3a2b2b; }
     </style>
     <script>
-        // Ensure canvas actual pixel size matches device pixels (important for Skiko/Compose)
+        // Resize the canvas to match the viewport (no DPR multiplication)
         function resizeCanvas() {
             const canvas = document.getElementById('ComposeTarget');
             if (!canvas) return;
-            const dpr = window.devicePixelRatio || 1;
             const cssWidth = window.innerWidth;
             const cssHeight = window.innerHeight;
-            canvas.width = Math.floor(cssWidth * dpr);
-            canvas.height = Math.floor(cssHeight * dpr);
+            // Use logical CSS pixels for the canvas backing store (no DPR multiplication)
+            canvas.width = Math.floor(cssWidth);
+            canvas.height = Math.floor(cssHeight);
             canvas.style.width = cssWidth + 'px';
             canvas.style.height = cssHeight + 'px';
+            console.log('[resizeCanvas] css:', cssWidth, cssHeight, 'attr:', canvas.width, canvas.height, 'rect:', canvas.getBoundingClientRect());
         }
         window.addEventListener('resize', resizeCanvas);
         window.addEventListener('orientationchange', resizeCanvas);
