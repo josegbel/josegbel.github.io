@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Jose Garcia - Mobile Developer Expert</title>
     <script type="application/javascript">
         function openLink(url) {
@@ -16,35 +16,60 @@
             margin: 0;
             padding: 0;
             overflow: hidden; /* prevent page scrolling/gutters */
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
         /* Ensure the canvas used by Compose fills the whole screen */
         #ComposeTarget {
             position: fixed;
-            inset: 0; /* top:0; right:0; bottom:0; left:0 */
-            display: block; /* remove default inline spacing */
+            inset: 0;
+            display: block;
             background: transparent;
-            outline: 2px solid magenta; /* debug outline to see actual canvas area */
+            width: 100%;
+            height: 100%;
         }
         body { background: #3a2b2b; }
     </style>
     <script>
-        // Resize the canvas to match the viewport (no DPR multiplication)
-        function resizeCanvas() {
-            const canvas = document.getElementById('ComposeTarget');
-            if (!canvas) return;
-            const cssWidth = window.innerWidth;
-            const cssHeight = window.innerHeight;
-            // Use logical CSS pixels for the canvas backing store (no DPR multiplication)
-            canvas.width = Math.floor(cssWidth);
-            canvas.height = Math.floor(cssHeight);
-            canvas.style.width = cssWidth + 'px';
-            canvas.style.height = cssHeight + 'px';
-            console.log('[resizeCanvas] css:', cssWidth, cssHeight, 'attr:', canvas.width, canvas.height, 'rect:', canvas.getBoundingClientRect());
-        }
-        window.addEventListener('resize', resizeCanvas);
-        window.addEventListener('orientationchange', resizeCanvas);
-        // call once synchronously so canvas has correct size before Compose starts
-        resizeCanvas();
+        (function () {
+            const canvas = () => document.getElementById('ComposeTarget');
+            let last = { w: 0, h: 0 };
+
+            function resizeCanvas() {
+                const el = canvas();
+                if (!el) return;
+
+                const cssWidth = window.innerWidth;
+                const cssHeight = window.innerHeight;
+
+                // Set canvas pixel dimensions to CSS logical pixels.
+                // Skiko (CanvasBasedWindow) handles DPR scaling internally,
+                // so multiplying here would cause double-scaling and shrink content.
+                el.width = Math.floor(cssWidth);
+                el.height = Math.floor(cssHeight);
+                el.style.width = cssWidth + 'px';
+                el.style.height = cssHeight + 'px';
+
+                last.w = cssWidth;
+                last.h = cssHeight;
+            }
+
+            window.addEventListener('resize', resizeCanvas);
+            window.addEventListener('orientationchange', resizeCanvas);
+            window.addEventListener('pageshow', resizeCanvas);
+            window.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') resizeCanvas(); });
+            window.addEventListener('focus', resizeCanvas);
+
+            setInterval(() => {
+                const cssW = window.innerWidth;
+                const cssH = window.innerHeight;
+                if (cssW !== last.w || cssH !== last.h) resizeCanvas();
+            }, 250);
+
+            resizeCanvas();
+        })();
     </script>
     <script type="application/javascript" src="skiko.js"></script>
     <script type="application/javascript" src="composeApp.js"></script>
